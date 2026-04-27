@@ -10,7 +10,7 @@ import image7 from "../assets/image7.jpeg";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { useState } from "react";
 import { useContext } from "react";
-import { userDataContext } from "../context/userContext";
+import { userDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 

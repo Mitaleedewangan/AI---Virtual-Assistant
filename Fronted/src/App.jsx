@@ -6,7 +6,7 @@ import Customize2 from './pages/Customize2';
 // import Logout from './pages/LogOut'
 import {Routes,Route} from 'react-router-dom';
 import { useContext } from 'react';
-import { userDataContext } from './context/userContext';
+import { userDataContext } from './context/UserContext';
 import Home from './pages/Home';
 import { Navigate } from 'react-router-dom';
 
