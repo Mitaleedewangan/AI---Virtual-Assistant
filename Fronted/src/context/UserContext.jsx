@@ -12,7 +12,8 @@ export const userDataContext = createContext()
 
 
 function UserContext ({children}){
-    const serverUrl = "http://localhost:5000"
+    // const serverUrl = "http://localhost:5000"
+    const serverUrl = import.meta.env.VITE_API_URL
     const[userData , setUserData] = useState(null)
      const [frontedImage,setFrontedImage] = useState(null);
     const[backendImage , setBackendImage] = useState(null);

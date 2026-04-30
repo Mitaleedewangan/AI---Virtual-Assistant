@@ -100,38 +100,38 @@ const stopListening = () => {
   window.speechSynthesis.speak(utterance);
 };
 
-const handleActions = (parsed) => {
-  const query = parsed.userInput || "";
+// const handleActions = (parsed) => {
+//   const query = parsed.userInput || "";
 
-  switch (parsed.type) {
-    case "youtube_play":
-      window.location.href = `https://www.youtube.com/results?search_query=${query}`;
-      break;
+//   switch (parsed.type) {
+//     case "youtube_play":
+//       window.location.href = `https://www.youtube.com/results?search_query=${query}`;
+//       break;
 
-    case "youtube_search":
-      window.location.href = "https://www.youtube.com";
-      break;
+//     case "youtube_search":
+//       window.location.href = "https://www.youtube.com";
+//       break;
 
-    case "google_search":
-      window.location.href = `https://www.google.com/search?q=${query}`;
-      break;
+//     case "google_search":
+//       window.location.href = `https://www.google.com/search?q=${query}`;
+//       break;
 
-    case "whatsapp_open":
-      window.location.href = "https://web.whatsapp.com";
-      break;
+//     case "whatsapp_open":
+//       window.location.href = "https://web.whatsapp.com";
+//       break;
 
-    case "weather_show":
-      window.location.href = "https://www.google.com/search?q=weather today";
-      break;
+//     case "weather_show":
+//       window.location.href = "https://www.google.com/search?q=weather today";
+//       break;
 
-    case "calculator_open":
-      window.location.href = "https://www.google.com/search?q=calculator";
-      break;
+//     case "calculator_open":
+//       window.location.href = "https://www.google.com/search?q=calculator";
+//       break;
 
-    default:
-      break;
-  }
-};
+//     default:
+//       break;
+//   }
+// };
 
 //   useEffect(() => {
 //     if (!userData) return;
@@ -263,6 +263,47 @@ const handleActions = (parsed) => {
 //       recognition.stop();
 //     };
 //   }, [userData]);
+
+const handleActions = (parsed) => {
+
+  if (!parsed) return;
+
+  const query = parsed?.userInput || "";
+
+  switch (parsed?.type) {
+    case "youtube_play":
+      window.location.href =
+        `https://www.youtube.com/results?search_query=${query}`;
+      break;
+
+    case "youtube_search":
+      window.location.href = "https://www.youtube.com";
+      break;
+
+    case "google_search":
+      window.location.href =
+        `https://www.google.com/search?q=${query}`;
+      break;
+
+    case "whatsapp_open":
+      window.location.href = "https://web.whatsapp.com";
+      break;
+
+    case "weather_show":
+      window.location.href =
+        "https://www.google.com/search?q=weather today";
+      break;
+
+    case "calculator_open":
+      window.location.href =
+        "https://www.google.com/search?q=calculator";
+      break;
+
+    default:
+      break;
+  }
+};
+
 useEffect(() => {
   if (!userData) return;
 
@@ -278,7 +319,7 @@ useEffect(() => {
   recognitionRef.current = recognition;
 
   recognition.continuous = true;
-  recognition.lang = "hi-IN";
+  recognition.lang = "en-US";
   recognition.interimResults = false;
 
   // ✅ mic state tracking
@@ -321,35 +362,39 @@ useEffect(() => {
     if (isProcessingRef.current) return;
     isProcessingRef.current = true;
 
-    try {
-     const data = await getGeminiResponse(transcript);
-      
-    
+   try {
+  const data = await getGeminiResponse(transcript);
 
-      let parsed;
-      try {
-        parsed = typeof data === "string" ? JSON.parse(data) : data;
-      } catch (err) {
-        console.log("❌ JSON parse error", err);
-        return;
-      }
+  if (!data) {
+    console.log("❌ No response from API");
+    return;
+  }
 
-      console.log("🤖 AI:", parsed);
+  let parsed;
 
-     setUserText("");
-setAiText(parsed?.response || "Thinking...");
+  try {
+    parsed = typeof data === "string"
+      ? JSON.parse(data)
+      : data;
+  } catch (err) {
+    console.log("❌ JSON parse error", err);
+    return;
+  }
 
-      // 🔊 Speak
-      if (parsed?.response) {
-        speak(parsed.response);
-      }
+  console.log("🤖 AI:", parsed);
 
-      // 🎯 ACTION HANDLER (IMPROVED)
-      handleActions(parsed);
+  setUserText("");
+  setAiText(parsed?.response || "Thinking...");
 
-    } catch (error) {
-      console.log("❌ API ERROR:", error);
-    }
+  if (parsed?.response) {
+    speak(parsed.response);
+  }
+
+  handleActions(parsed);
+
+} catch (error) {
+  console.log("❌ API ERROR:", error);
+}
 
     setTimeout(() => {
       isProcessingRef.current = false;

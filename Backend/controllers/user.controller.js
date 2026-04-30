@@ -212,6 +212,7 @@ export const updateAssistant = async(req, res) =>{
 
 export const askToAssistant = async (req, res) => {
   try {
+      console.log("BODY:", req.body);
     const { command } = req.body;
 
 
