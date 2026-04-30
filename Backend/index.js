@@ -18,26 +18,18 @@ const app = express();
 // }));
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-
-    const allowed = [
+   origin: [
       "http://localhost:5173",
       "https://ai-virtual-assistant-frontend-2026-bice.vercel.app"
-    ];
-
-    if (allowed.includes(origin)) {
-      return callback(null, true);
-    }
-
-    return callback(new Error("Not allowed by CORS"));
-  },
-  credentials: true
+   ],
+   credentials: true
 }));
 
 const port =  process.env.PORT ||  8000
 app.use(express.json())
 app.use(cookieParser())
+
+app.set("trust proxy", 1);
 app.use("/api/auth",authRouter)
 app.use("/api/user",userRouter)
 

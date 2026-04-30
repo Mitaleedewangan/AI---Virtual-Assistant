@@ -27,7 +27,9 @@ function UserContext ({children}){
             console.log(result.data);
         }
         catch(error){
-            console.log(error);
+            console.log("FULL ERROR:", error.response?.data);
+   console.log("STATUS:", error.response?.status);
+   console.log("MESSAGE:", error.message);
         }
 
 
