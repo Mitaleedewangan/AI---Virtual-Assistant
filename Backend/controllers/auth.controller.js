@@ -37,7 +37,9 @@ import bcrypt from 'bcryptjs';
             secure:true
         })
 
-        return res.status(201).json(user)
+       const safeUser = await User.findById(user._id).select("-password");
+
+return res.status(201).json(safeUser);
 
 
     }
@@ -75,7 +77,9 @@ export const SignIn = async(req,res) =>{
             secure:true
         })
 
-        return res.status(201).json(user)
+       const safeUser = await User.findById(user._id).select("-password");
+
+return res.status(201).json(safeUser);
 
 
     }
@@ -89,7 +93,11 @@ export const SignIn = async(req,res) =>{
 
 export const Logout = async (req,res)=>{
     try{
-        res.clearCookie("token")
+        res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+})
         return res.status(200).json({message:"log out successfully"})
     }
     catch(error){
