@@ -1,3 +1,7 @@
+import dns from "node:dns";
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 import express from 'express';
 import dotenv  from 'dotenv';
 dotenv.config()
@@ -11,25 +15,26 @@ import geminiResponse from './gemini.js';
 
 
 const app = express();
-// app.use(cors({
-//     origin:true,
-//     credentials:true
-
-// }));
-
 app.use(cors({
-   origin: [
-      "http://localhost:5173",
-      "https://ai-virtual-assistant-frontend-2026-bice.vercel.app"
-   ],
-   credentials: true
+    origin:true,
+    credentials:true
+
 }));
+// app.set("trust proxy", 1);
+
+// app.use(cors({
+//    origin: [
+//       "http://localhost:5173",
+//       "https://ai-virtual-assistant-frontend-2026-bice.vercel.app"
+//    ],
+//    credentials: true
+// }));
 
 const port =  process.env.PORT ||  8000
 app.use(express.json())
 app.use(cookieParser())
 
-app.set("trust proxy", 1);
+
 app.use("/api/auth",authRouter)
 app.use("/api/user",userRouter)
 

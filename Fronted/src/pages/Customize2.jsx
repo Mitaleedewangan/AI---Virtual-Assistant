@@ -7,7 +7,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 
 function Customize2() {
   const { userData, backendImage, selectedImage } = useContext(userDataContext)
-  const [assistantName, setAssistantName] = useState(userData?.AssistantName || "")
+  const [assistantName, setAssistantName] = useState(userData?.assistantName || "")
   const navigate = useNavigate();
   const { serverUrl, setUserData } = useContext(userDataContext);
   const [loading, setLoading] = useState(false);

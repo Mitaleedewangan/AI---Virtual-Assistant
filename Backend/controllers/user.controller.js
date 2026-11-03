@@ -227,7 +227,30 @@ export const askToAssistant = async (req, res) => {
     const text = command.toLowerCase();
 
     // ✅ FALLBACK (AI fail ho tab bhi kaam kare)
-    if (text.includes("youtube")) {
+   
+
+    if (
+  text.includes("play") ||
+  text.includes("search")
+) {
+  if (text.includes("youtube")) {
+
+    let cleanQuery = text
+      .replace("play", "")
+      .replace("search", "")
+      .replace("on youtube", "")
+      .replace("youtube", "")
+      .trim();
+
+    return res.json({
+      type: "youtube_play",
+      userInput: cleanQuery,
+      response: `Playing ${cleanQuery} on YouTube`,
+    });
+  }
+}
+
+ if (text.includes("youtube")) {
       return res.json({
         type: "youtube_search",
         userInput: command,
